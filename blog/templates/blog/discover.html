@@ -1,0 +1,30 @@
+{% extends "blog/base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <h2>Discover</h2>
+  <div class="row">
+    {% for top_posts in top_posts_by_category %}
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          {% if top_posts.posts.0.header_image %}
+            <img class="card-img-top" src="{{ top_posts.posts.0.header_image.url }}" alt="{{ top_posts.posts.0.title }} header image">
+          {% else %}
+            <img class="card-img-top" src="{% static 'blog/images/default.jpg' %}" alt="No Image">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{ top_posts.category }}</h5>
+            <ul class="list-unstyled">
+              {% for post in top_posts.posts %}
+                <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
+              {% empty %}
+                <li>No posts found.</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
